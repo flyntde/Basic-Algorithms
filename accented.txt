@@ -1,0 +1,17 @@
+I'm reading in Spanish words from a text file, 
+with characters like · and Ò. Then I'm separating them into groups and 
+writing them to new text files. The Strings with accent marks look fine in 
+the input text file and look fine in the output text file. However, some of 
+the logic in that separates them in the groups is behaving incorrectly. This 
+is because accented characters are treated as multiple characters in the 
+logic, i.e. · is treated as √°. So for example, the logic thinks c·diz and 
+c·liz have the same first 3 letters (c√°), when in fact they only have the 
+same first 2 letters (c·). So c·diz and c·liz are both put in the c√° 
+output file, instead of c·diz in the c·d file and c·liz in the c·l file.
+
+How do I get the logic to treat accented characters correctly? How do I 
+get c·diz in the c·d file and c·liz in the c·l file?
+
+Does it have something to do with Locale? If so, exactly what code do 
+I need to write, because I've been messing around with Locale for a 
+while now with no luck. 
