@@ -1,5 +1,3 @@
-package sorting;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +35,15 @@ public class QuickSort {
 		arr[j] = temp;
 	}
 	
-//	private int chooseLeftPivot(int[] arr, int left, int right) 
-//	{
-//		return arr[left];
-//	}
-//	
-//	private int chooseRightPivot(int[] arr, int left, int right) {
-//		swap(arr, left, right);
-//		return arr[left];
-//	}
+	private int chooseLeftPivot(int[] arr, int left, int right) 
+	{
+		return arr[left];
+	}
+	
+	private int chooseRightPivot(int[] arr, int left, int right) {
+		swap(arr, left, right);
+		return arr[left];
+	}
 	
 	int median(int a, int b, int c) {
 	    if ((a - b) * (c - a) >= 0) // a >= b and a <= c OR a <= b and a >= c
@@ -71,8 +69,15 @@ public class QuickSort {
 	
 	// partition into left and right sub arrays around pivot and 
 	// return index of pivot location in arr
-	private int partition (int arr[], int left, int right) {
-		int pivot = chooseMedianPivot (arr, left, right);
+	private int partition (int arr[], int left, int right, char p) {
+		int pivot = chooseLeftPivot(arr, left, right);
+
+		if (p == 'l') {
+			pivot = chooseRightPivot(arr, left, right);
+		}
+		if (p == 'm') {
+			pivot = chooseMedianPivot (arr, left, right);
+		}
 		
 		int i = left + 1;
 		for (int j = left + 1; j <= right; ++j) {
@@ -85,33 +90,40 @@ public class QuickSort {
 		return i - 1;
 	}
 	
-	public void quicksort(int[] arr, int left, int right) {
+	public void quicksort(int[] arr, int left, int right, char pivot) {
 		numComparisons += right - left;
 		
 		// subarray length = 1
 		if (left == right) return;
 		
 		// partition arr around pivot
-		int pivotIndex = partition(arr, left, right);
+		int pivotIndex = partition(arr, left, right, pivot);
 		
 		// if left part contains at least one element, sort it
 		if ((pivotIndex - left) > 0) {
-			quicksort(arr, left, pivotIndex - 1);
+			quicksort(arr, left, pivotIndex - 1, pivot);
 		}
 		// if right part contains at least one element, sort it
 		if ((right - pivotIndex) > 0) {
-			quicksort(arr, pivotIndex + 1, right);
+			quicksort(arr, pivotIndex + 1, right, pivot);
 		}
 		return;
 	}
 	
 	public static void main(String[] args) {
-		int[] input = loadInputArray("QuickSort.txt");
+		int[] input1 = loadInputArray("QuickSort.txt");
+		int[] input2 = loadInputArray("QuickSort.txt");
+		int[] input3 = loadInputArray("QuickSort.txt");
 	
 		QuickSort qs = new QuickSort();
-		qs.quicksort(input, 0, input.length - 1);
-		//for (int i: input) 
-			
+		qs.quicksort(input1, 0, input1.length - 1, 'f');	
 		System.out.println(qs.numComparisons);
+		qs = new QuickSort();
+		qs.quicksort(input2, 0, input1.length - 1, 'l');
+		System.out.println(qs.numComparisons);
+		qs = new QuickSort();
+		qs.quicksort(input3, 0, input1.length - 1, 'm');
+		System.out.println(qs.numComparisons);
+
 	}
 }
