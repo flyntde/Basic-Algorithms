@@ -1,1 +1,4 @@
 **/euler
+*.class
+.ipynb_checkpoints/
+**/.DS_Store
