@@ -50,6 +50,45 @@ def get_order(finish):
     order.reverse()
     return order[:n]
 
+
+##### iterative dfs (with finish times) ####
+# Determine if every vertex connected to v
+# has already been explored
+def all_explored(G, v):
+    if v in G:
+        for w in G[v]:
+            if not explored[w]:
+                return False
+    return True
+
+def dfs_iter(g, order):
+    global s, t
+
+    for v in order:
+        if not explored[v]:
+            s = v
+            stack = [v]
+            while stack:
+                v = stack[-1]
+                explored[v] = True
+                leader[v] = s
+
+                # If v still has outgoing edges to explore
+                if not all_explored(g, v):
+                    for w in g[v]:
+
+                        # Explore w before others attached to v
+                        if not explored[w]:
+                            stack.append(w)
+                            break
+
+                # We have explored all nodes findable from v
+                else:
+                    stack.pop()
+                    t += 1
+                    finish[v] = t
+
+
 def main():
     global leader, finish, explored
     g = {}
@@ -60,12 +99,13 @@ def main():
     finish = [0] * (n + 1)
     explored = [False] * (n + 1)
     order = [x for x in range(len(g) ,0,-1)]
-    dfs_loop(g_rev, order)
+    dfs_iter(g_rev, order)
     order = get_order(finish)
     leader.clear()
     explored = [False] * (n + 1)
 
-    dfs_loop(g, order)
+    dfs_iter(g, order)
+    #dfs_loop(g, order)
 
     inv_leader = {}
     for k,v in leader.items():
