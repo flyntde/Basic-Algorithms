@@ -51,9 +51,7 @@ def get_order(finish):
     return order[:n]
 
 
-##### iterative dfs (with finish times) ####
-# Determine if every vertex connected to v
-# has already been explored
+# Determine whether every node reachable from v has been explored
 def all_explored(G, v):
     if v in G:
         for w in G[v]:
